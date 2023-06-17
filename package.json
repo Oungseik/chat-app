@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "format": "prettier --plugin-search-dir . --write ."
+    "format": "prettier --plugin-search-dir . --write .",
+    "dev": "nodemon src/main.js"
   },
   "keywords": [
     "chat-api",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "nodemon": "^2.0.22",
     "prettier": "^2.8.8"
   }
 }
