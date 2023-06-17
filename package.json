@@ -1,0 +1,28 @@
+{
+  "name": "chat-api",
+  "version": "0.1.0",
+  "description": "Backend to serve realtime chat",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "format": "prettier --plugin-search-dir . --write ."
+  },
+  "keywords": [
+    "chat-api",
+    "chat",
+    "express-websocket"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@types/node": "^20.3.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.0",
+    "express": "^4.18.2",
+    "passport": "^0.6.0"
+  },
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "^4.1.1",
+    "prettier": "^2.8.8"
+  }
+}
