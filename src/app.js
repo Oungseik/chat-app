@@ -1,5 +1,4 @@
 // @ts-check
-
 require("express-async-error");
 const errorHandler = require("./middlewares/error-handler");
 
