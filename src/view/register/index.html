@@ -6,6 +6,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="/assets/css/style.css" rel="stylesheet">
+  <!-- <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script> -->
 </head>
 
 <body>
@@ -17,7 +18,7 @@
         <h1 class="text-2xl font-bold uppercase">ChatApp</h1>
       </div>
 
-      <form class="flex flex-col gap-6" method="POST" use:enhance>
+      <form class="flex flex-col gap-6" method="POST" id="form">
         <input type="text" id="username" name="username" required placeholder="Username" />
         <input type="email" id="email" name="email" required placeholder="Email" />
         <input type="password" id="password" name="password" required placeholder="Password" />
