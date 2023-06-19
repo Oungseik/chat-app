@@ -1,6 +1,17 @@
 // @ts-check
 require("dotenv").config();
-const { log } = require("./lib/logger");
+const { log, error } = require("./lib/logger");
+
+const mongoose = require("mongoose");
+mongoose
+  .connect(process.env.MONGODB_URL)
+  .then(() => {
+    log("conected to the MongoDB");
+  })
+  .catch((err) => {
+    error(err);
+    process.exit(1);
+  });
 
 const app = require("./app");
 const http = require("http");

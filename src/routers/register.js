@@ -1,24 +1,50 @@
 //@ts-check
 const { Router } = require("express");
 const { getViews } = require("../lib/utils");
-const { BadRequestError } = require("../lib/errors");
+
+const User = require("../models/User");
+const bcrypt = require("bcrypt");
+
+const multer = require("multer");
+const upload = multer();
 
 const router = Router();
 
 const registerFile = getViews("register", "index.html");
 
-router.get("/", (_request, response) => {
+router.get("/", async (_request, response) => {
   response.sendFile(registerFile);
 });
 
-router.post("/", (request, response) => {
+router.post("/", upload.none(), async (request, response) => {
   const { username, email, password, passwordConfirm } = request.body;
 
-  if (password !== passwordConfirm) {
-    return response.status(400).sendFile(registerFile);
+  const usernameCheck = await User.findOne({ username });
+  if (usernameCheck) {
+    return response.status(400).json({
+      msg: "Username already used",
+    });
   }
-  console.log(username, email, password, passwordConfirm);
-  response.redirect("/login");
+
+  const emailCheck = await User.findOne({ email });
+  if (emailCheck) {
+    return response.status(400).json({
+      msg: "Email already used",
+    });
+  }
+
+  if (password !== passwordConfirm) {
+    return response.status(400).json({
+      msg: "Password does not match",
+    });
+  }
+
+  const hashedPassword = await bcrypt.hash(password, 3);
+  await User.create({ username, email, password: hashedPassword });
+
+  response.status(302).json({
+    url: `${process.env.DOMAIN}/login`,
+  });
 });
 
 module.exports = router;
