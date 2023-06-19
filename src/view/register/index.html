@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>ChatMe - Register</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="/assets/css/style.css" rel="stylesheet">
+</head>
+
+<body>
+  <!-- form-container -->
+  <section class="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50">
+    <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-20 py-12">
+      <!-- brand -->
+      <div class="flex items-center justify-center gap-4">
+        <h1 class="text-2xl font-bold uppercase">ChatApp</h1>
+      </div>
+
+      <form class="flex flex-col gap-6" method="POST" use:enhance>
+        <input type="text" id="username" name="username" required placeholder="Username" />
+        <input type="email" id="email" name="email" required placeholder="Email" />
+        <input type="password" id="password" name="password" required placeholder="Password" />
+        <input type="password" id="password-confirm" name="passwordConfirm" required placeholder="Confirm Password" />
+        <button
+          class="rounded-lg bg-sky-600 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none">Create
+          User</button>
+      </form>
+
+      <span class="uppercase">Already have account? <a href="/login">Login</a></span>
+    </div>
+  </section>
+</body>
+
+</html>

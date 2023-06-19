@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  a {
+    @apply font-bold text-sky-600/80 underline-offset-2 hover:underline;
+  }
+
+  input {
+    @apply w-full rounded-lg border-2 border-slate-600 bg-transparent p-2 outline-none focus:outline-none focus:border-sky-600;
+  }
+}
