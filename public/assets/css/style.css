@@ -567,6 +567,18 @@ input:focus {
   display: flex;
 }
 
+.h-40 {
+  height: 10rem;
+}
+
+.h-80 {
+  height: 20rem;
+}
+
+.h-96 {
+  height: 24rem;
+}
+
 .min-h-screen {
   min-height: 100vh;
 }
@@ -662,6 +674,11 @@ input:focus {
   line-height: 2rem;
 }
 
+.text-sm {
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 .font-bold {
   font-weight: 700;
 }
@@ -711,6 +728,14 @@ input:focus {
 }
 
 @media (min-width: 640px) {
+  .sm\:h-\[40rem\] {
+    height: 40rem;
+  }
+
+  .sm\:h-\[36rem\] {
+    height: 36rem;
+  }
+
   .sm\:w-96 {
     width: 24rem;
   }
@@ -737,6 +762,10 @@ input:focus {
 
   .sm\:w-\[30rem\] {
     width: 30rem;
+  }
+
+  .sm\:w-auto {
+    width: auto;
   }
 
   .sm\:px-20 {

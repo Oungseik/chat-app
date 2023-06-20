@@ -46,7 +46,7 @@ router.post("/", upload.none(), async (request, response) => {
   await User.create({ username, email, password: hashedPassword });
 
   response.status(302).json({
-    url: `${process.env.DOMAIN}/login`,
+    url: "/login",
   });
 });
 

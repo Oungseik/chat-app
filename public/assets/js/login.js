@@ -6,14 +6,14 @@ window.addEventListener("alpine:init", () => {
         e.preventDefault();
 
         const data = new FormData(e.target);
-        const response = await fetch("http://localhost:3000/register/", {
+        const response = await fetch("http://localhost:3000/login/", {
           method: "POST",
           body: data,
         });
 
         if (response.status === 400) {
           const responseData = await response.json();
-          console.error(responseData);
+          console.log(responseData);
         }
 
         if (response.status === 302) {
