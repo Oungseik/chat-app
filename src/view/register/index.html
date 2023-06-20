@@ -12,18 +12,24 @@
 <body>
   <!-- form-container -->
   <section class="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50">
-    <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-20 py-12">
+    <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-6 sm:px-20 py-8 sm:py-12 w-80 sm:w-[30rem]">
       <!-- brand -->
       <div class="flex items-center justify-center gap-4">
         <h1 class="text-2xl font-bold uppercase">ChatApp</h1>
       </div>
 
       <form class="flex flex-col gap-6" method="POST" id="form" x-data="formData" x-ref="form">
+
         <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20" />
-        <input type="email" id="email" name="email" required placeholder="Email" />
-        <input type="password" id="password" name="password" required placeholder="Password" />
+
+        <input type="email" id="email" name="email" required placeholder="Email" maxlength="50" />
+
+        <input type="password" id="password" name="password" required placeholder="Password" minlength="4"
+          maxlength="30" />
+
         <input type="password" id="password-confirm" name="passwordConfirm" required placeholder="Confirm Password"
           minlength="4" maxlength="30" />
+
         <button
           class="rounded-lg bg-sky-600 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none">Create
           User</button>

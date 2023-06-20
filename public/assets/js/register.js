@@ -1,5 +1,6 @@
 window.addEventListener("alpine:init", () => {
   Alpine.data("formData", () => ({
+    error: "",
     init() {
       this.$refs.form.addEventListener("submit", async (e) => {
         e.preventDefault();
@@ -10,9 +11,14 @@ window.addEventListener("alpine:init", () => {
           body: data,
         });
 
+        if (response.status === 400) {
+          const error = await response.json().error;
+          console.error(error);
+        }
+
         if (response.status === 302) {
           const { url } = await response.json();
-          window.location.replace(url);
+          window.location = url;
         }
       });
     },

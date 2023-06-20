@@ -22,6 +22,7 @@ router.post("/", upload.none(), async (request, response) => {
   const usernameCheck = await User.findOne({ username });
   if (usernameCheck) {
     return response.status(400).json({
+      error: "username",
       msg: "Username already used",
     });
   }
@@ -29,12 +30,14 @@ router.post("/", upload.none(), async (request, response) => {
   const emailCheck = await User.findOne({ email });
   if (emailCheck) {
     return response.status(400).json({
+      error: "email",
       msg: "Email already used",
     });
   }
 
   if (password !== passwordConfirm) {
     return response.status(400).json({
+      error: "password",
       msg: "Password does not match",
     });
   }
