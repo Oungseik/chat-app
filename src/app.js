@@ -16,6 +16,9 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routers/register");
 app.use("/register", registerRouter);
 
+const setAvatarRouter = require("./routers/set-avatar");
+app.use("/set-avatar", setAvatarRouter);
+
 app.use(errorHandler);
 
 module.exports = app;

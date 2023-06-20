@@ -10,10 +10,10 @@ const upload = multer();
 
 const router = Router();
 
-const loginFile = getView("login");
+const loginView = getView("login");
 
 router.get("/", async (_request, response) => {
-  response.sendFile(loginFile);
+  response.sendFile(loginView);
 });
 
 router.post("/", upload.none(), async (request, response) => {
