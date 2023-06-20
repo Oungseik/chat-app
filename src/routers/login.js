@@ -33,6 +33,14 @@ router.post("/", upload.none(), async (request, response) => {
     });
   }
 
+  request.session.user = {
+    username,
+    email: user.email,
+    id: user._id.toString(),
+    isAvatarImageSet: user.isAvatarImageSet,
+    avatarImage: user.avatarImage,
+  };
+
   if (!user.isAvatarImageSet) {
     return response.status(302).json({
       url: `/set-avatar`,
