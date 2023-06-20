@@ -1,6 +1,6 @@
 //@ts-check
 const { Router } = require("express");
-const { getViews } = require("../lib/utils");
+const { getView } = require("../lib/utils");
 
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
@@ -10,7 +10,7 @@ const upload = multer();
 
 const router = Router();
 
-const loginFile = getViews("login", "index.html");
+const loginFile = getView("login");
 
 router.get("/", async (_request, response) => {
   response.sendFile(loginFile);
@@ -30,6 +30,12 @@ router.post("/", upload.none(), async (request, response) => {
   if (!isPasswordValid) {
     return response.status(400).json({
       msg: "Incorrect username or password",
+    });
+  }
+
+  if (!user.isAvatarImageSet) {
+    return response.status(302).json({
+      url: `/set-avatar`,
     });
   }
 

@@ -1,7 +1,7 @@
 const path = require("path");
 
-const getViews = (...paths) => path.join(process.cwd(), "src", "view", ...paths);
+const getView = (...paths) => path.join(process.cwd(), "src", "view", ...paths, "index.html");
 
 module.exports = {
-  getViews,
+  getView,
 };

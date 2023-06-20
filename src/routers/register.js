@@ -1,6 +1,6 @@
 //@ts-check
 const { Router } = require("express");
-const { getViews } = require("../lib/utils");
+const { getView } = require("../lib/utils");
 
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
@@ -10,7 +10,7 @@ const upload = multer();
 
 const router = Router();
 
-const registerFile = getViews("register", "index.html");
+const registerFile = getView("register");
 
 router.get("/", async (_request, response) => {
   response.sendFile(registerFile);
