@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Backend to serve realtime chat",
   "main": "src/main.js",
+  "types": "src/types.d.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "format": "prettier --plugin-search-dir . --write .",

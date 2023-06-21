@@ -4,7 +4,7 @@ const { log, error } = require("./lib/logger");
 
 const mongoose = require("mongoose");
 mongoose
-  .connect(process.env.MONGODB_URL)
+  .connect(/** @type {string} */ (process.env.MONGODB_URL))
   .then(() => {
     log("conected to the MongoDB");
   })

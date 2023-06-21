@@ -7,20 +7,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="/assets/css/style.css" rel="stylesheet">
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+  <style>
+    svg {
+      height: 4rem;
+      width: 4rem;
+    }
+  </style>
+
 </head>
 
 <body>
   <section
-    class="min-h-screen max-h-screen flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50">
-    <div>
-      <div>
-        <h1>Pick an avatar as your profile picture!</h1>
-      </div>
-      <div>
+    class="min-h-screen max-h-screen flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50"
+    x-data="avatar">
 
+    <form method="POST"
+      class="min-h-[24rem] max-w-[20rem] sm:max-w-none sm:w-[30rem] sm:h-[24rem] bg-slate-900 p-8 rounded-lg flex flex-col justify-between gap-6">
+
+      <div>
+        <h1 class="text-lg sm:text-2xl text-center">Pick an avatar as your profile picture!</h1>
       </div>
-    </div>
+
+      <div class="flex gap-4 flex-wrap w-40 sm:w-auto mx-auto items-center justify-center">
+        <template x-for="(svg, i) in svgs" :key="i">
+          <div>
+            <input type="radio" name="avatarImage" :value="svg" required :id="`avatarImage-${i}`" class="peer hidden" />
+            <label
+              class="block h-16 w-16 sm:h-20 sm:w-20 peer-checked:ring rounded-full peer-checked:ring-sky-500 ring-offset-4 ring-offset-slate-900"
+              :for="`avatarImage-${i}`"><img :src="svg" alt="avatar image" />
+            </label>
+          </div>
+        </template>
+      </div>
+
+      <button
+        class="rounded-lg bg-sky-600 px-4 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none block ml-auto">Next</button>
+    </form>
   </section>
+
+  <script>
+    window.addEventListener("alpine:init", () => {
+      Alpine.data("avatar", () => ({
+        svgs: [
+          "/assets/images/avatars/332213.svg",
+          "/assets/images/avatars/33223.svg",
+          "/assets/images/avatars/33224.svg",
+          "/assets/images/avatars/33225.svg",
+          "/assets/images/avatars/33226.svg",
+          "/assets/images/avatars/33227.svg",
+          "/assets/images/avatars/33228.svg",
+          "/assets/images/avatars/41941.svg",
+        ],
+      }));
+    });
+  </script>
 
 </body>
 
