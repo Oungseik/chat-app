@@ -8,7 +8,7 @@ const router = Router();
 
 const setAvatarView = getView("set-avatar");
 
-router.get("/", async (request, response) => {
+router.get("/", async (_request, response) => {
   response.sendFile(setAvatarView);
 });
 
