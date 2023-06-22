@@ -5,6 +5,7 @@ window.addEventListener("alpine:init", () => {
     chatWith: "",
 
     currentChat: null,
+    message: "",
 
     init: async function () {
       this.users = await fetch("/api/users").then((user) => user.json());
@@ -14,6 +15,10 @@ window.addEventListener("alpine:init", () => {
     selectChat(username) {
       this.chatWith = username;
       this.currentChat = this.users.find((user) => user.username === username);
+    },
+
+    send(e) {
+      /** @type {HTMLFormElement} */ (e.target).reset();
     },
   }));
 });
