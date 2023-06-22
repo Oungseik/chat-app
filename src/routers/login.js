@@ -6,6 +6,7 @@ const User = require("../models/User");
 const bcrypt = require("bcrypt");
 
 const multer = require("multer");
+const { log } = require("../lib/logger");
 const upload = multer();
 
 const router = Router();
@@ -50,6 +51,14 @@ router.post("/", upload.none(), async (request, response) => {
   response.status(302).json({
     url: `/`,
   });
+});
+
+router.delete("/", async (request, response) => {
+  request.session.destroy(() => {
+    log("a user is logged out");
+  });
+
+  response.redirect("/login");
 });
 
 module.exports = router;
