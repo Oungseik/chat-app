@@ -19,7 +19,7 @@
 
 <body>
   <section
-    class="min-h-screen max-h-screen flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50"
+    class="min-h-screen min-h-screen flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50"
     x-data="avatar">
 
     <form method="POST"
@@ -34,7 +34,7 @@
           <div>
             <input type="radio" name="avatarImage" :value="svg" required :id="`avatarImage-${i}`" class="peer hidden" />
             <label
-              class="block h-16 w-16 sm:h-20 sm:w-20 peer-checked:ring rounded-full peer-checked:ring-sky-500 ring-offset-4 ring-offset-slate-900"
+              class="block h-16 w-16 sm:h-20 sm:w-20 peer-checked:ring-[3px] rounded-full peer-checked:ring-sky-500 ring-offset-[3px] ring-offset-slate-900"
               :for="`avatarImage-${i}`"><img :src="svg" alt="avatar image" />
             </label>
           </div>

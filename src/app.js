@@ -30,15 +30,22 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routers/register");
 app.use("/register", registerRouter);
 
-app.use("/", (req, res, next) => {
+app.use((req, res, next) => {
   if (!req.session.user) {
     return res.redirect("/login");
   }
   next();
 });
 
+const chatsRouter = require("./routers/chats");
+app.use("/", chatsRouter);
+
 const setAvatarRouter = require("./routers/set-avatar");
 app.use("/set-avatar", setAvatarRouter);
+
+// api routes
+const usersApiRouter = require("./api/users");
+app.use("/api/users", usersApiRouter);
 
 app.use(errorHandler);
 
