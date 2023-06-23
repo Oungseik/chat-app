@@ -6,6 +6,7 @@ window.addEventListener("alpine:init", () => {
     isEmojiOpen: false,
 
     currentChat: {},
+    chatMessages: [],
     message: "",
 
     init: async function () {
@@ -22,7 +23,7 @@ window.addEventListener("alpine:init", () => {
       this.isEmojiOpen = false;
 
       const response = await fetch(`/messages/${this.currentChat.id}`);
-      console.log(await response.json());
+      this.chatMessages = await response.json();
     },
 
     send: async function (e) {
@@ -32,6 +33,9 @@ window.addEventListener("alpine:init", () => {
 
       const response = await fetch("/messages", { method: "POST", body: formData });
       const data = await response.json();
+
+      console.log(data);
+      console.log(this.chatMessages);
 
       this.message = "";
     },

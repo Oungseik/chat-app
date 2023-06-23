@@ -20,10 +20,19 @@ router.get("/messages/:to", async (request, response) => {
   const from = new mongoose.mongo.ObjectId(request.session.user.id);
   const to = new mongoose.mongo.ObjectId(request.params.to);
 
-  const messages = await Message.find({ users: { $all: [from, to] } }).sort({ updatedAt: 1 });
-  console.log(messages);
+  const messages = await Message.find({ users: { $all: [from, to] } })
+    .sort({ updatedAt: 1 })
+    .select(["_id", "message", "sender", "users", "updatedAt"]);
 
-  response.json({ msg: "hello" });
+  const data = messages.map(({ _id, message, sender, users, updatedAt }) => ({
+    id: _id.toString(),
+    message,
+    sender: sender.toString(),
+    users: users.map((user) => user.toString()),
+    updatedAt,
+  }));
+
+  response.json(data);
 });
 
 router.post("/messages", upload.none(), async (request, response) => {

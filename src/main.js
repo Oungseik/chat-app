@@ -10,7 +10,6 @@ mongoose
   })
   .catch((err) => {
     error(err);
-    process.exit(1);
   });
 
 const app = require("./app");
