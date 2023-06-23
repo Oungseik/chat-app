@@ -50,6 +50,7 @@
             <img class="h-16 w-16" :src="me?.avatarImage" :alt="`avatar of ${me?.username}`" />
             <span class="text-2xl font-bold" x-text="me?.username"></span>
           </div>
+
           <form action="/login" method="DELETE">
             <button
               class="text-center gap-4 bg-slate-600 hover:bg-slate-700 w-full p-2 transition duration-300 uppercase">Log
@@ -75,7 +76,7 @@
       </section>
 
       <main class="grow">
-        <section x-show="!currentChat" class="flex flex-col items-center justify-center">
+        <section x-show="!currentChat?.username" class="flex flex-col items-center justify-center">
           <div> <img src="/assets/images/robot.gif" alt="welcome robot" /></div>
           <div class="text-center">
             <h1 class="font-bold text-2xl md:text-3xl monospace">Welcome <span class="text-green-300"
@@ -84,12 +85,12 @@
           </div>
         </section>
 
-        <section x-show="currentChat" class="flex flex-col justify-between h-full">
+        <section x-show="currentChat?.username" class="flex flex-col justify-between h-full">
           <div>
             chat texts will be here
           </div>
 
-          <form class="flex gap-2 relative" @submit.prevent="send" x-data="{isEmojiOpen: false}">
+          <form class="flex gap-2 relative" @submit.prevent="send">
             <emoji-picker id="emoji-picker" class="absolute bottom-16" x-show="isEmojiOpen"></emoji-picker>
             <button @click="isEmojiOpen = !isEmojiOpen"
               class="text-center bg-slate-600 hover:bg-slate-700 rounded-md grow-0 self-center p-2 shadow-sm shadow-slate-400/70 transition duration-300 active:shadow-none uppercase"><svg
@@ -97,7 +98,11 @@
                 <path fill="currentColor"
                   d="M14.36 14.23a3.76 3.76 0 0 1-4.72 0a1 1 0 0 0-1.28 1.54a5.68 5.68 0 0 0 7.28 0a1 1 0 1 0-1.28-1.54ZM9 11a1 1 0 1 0-1-1a1 1 0 0 0 1 1Zm6-2a1 1 0 1 0 1 1a1 1 0 0 0-1-1Zm-3-7a10 10 0 1 0 10 10A10 10 0 0 0 12 2Zm0 18a8 8 0 1 1 8-8a8 8 0 0 1-8 8Z" />
               </svg></button>
-            <input type="text" id="message" name="message" placeholder="Aa..." x-model="message" autocomplete="off">
+
+            <input class="hidden" name="from" x-model="me.id" />
+            <input class="hidden" name="to" x-model="currentChat.id" />
+            <input type="text" id="message" x-ref="message" name="message" placeholder="Aa..." x-model="message"
+              autocomplete="off">
             <button
               class="text-center bg-slate-600 hover:bg-slate-700 rounded-md grow-0 self-center p-4 shadow-sm shadow-slate-400/70 transition duration-300 active:shadow-none">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -116,10 +121,10 @@
   <script src="/assets/js/chat.js"></script>
   <script type="module">
     import 'https://cdn.jsdelivr.net/npm/emoji-picker-element@^1/index.js'
-    import insertText from 'https://cdn.jsdelivr.net/npm/insert-text-at-cursor@0.3.0/index.js'
 
+    const message = document.getElementById("message");
     document.getElementById('emoji-picker').addEventListener('emoji-click', e => {
-      insertText(document.getElementById('message'), e.detail.unicode)
+      message.value += e.detail.unicode;
     })
   </script>
 

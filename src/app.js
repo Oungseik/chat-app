@@ -30,12 +30,8 @@ app.use("/login", loginRouter);
 const registerRouter = require("./routers/register");
 app.use("/register", registerRouter);
 
-app.use((req, res, next) => {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
-  next();
-});
+const authenticator = require("./middlewares/authentication");
+app.use(authenticator);
 
 const chatsRouter = require("./routers/chats");
 app.use("/", chatsRouter);

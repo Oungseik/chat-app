@@ -5,7 +5,7 @@ const router = Router();
 
 router.get("/", async (request, response) => {
   const { username } = request.session.user;
-  const users = await User.find({ username: { $ne: username } }).select([
+  let users = await User.find({ username: { $ne: username } }).select([
     "_id",
     "email",
     "username",
@@ -13,7 +13,18 @@ router.get("/", async (request, response) => {
     "fullname",
   ]);
 
-  response.json(users);
+  const data = [];
+  users.forEach((user) => {
+    data.push({
+      id: user._id.toString(),
+      email: user.email,
+      username: user.username,
+      avatarImage: user.avatarImage,
+      fullname: user.fullname,
+    });
+  });
+
+  response.json(data);
 });
 
 router.get("/me", async (request, response) => {
