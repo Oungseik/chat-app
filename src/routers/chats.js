@@ -40,9 +40,9 @@ router.post("/messages", upload.none(), async (request, response) => {
 
   let users;
   if (to instanceof Array) {
-    users = [from, ...to].map((user) => new mongoose.mongo.ObjectId(user));
+    users = [from, ...to];
   } else {
-    users = [from, to].map((user) => new mongoose.mongo.ObjectId(user));
+    users = [from, to];
   }
 
   const data = await Message.create({
@@ -51,7 +51,13 @@ router.post("/messages", upload.none(), async (request, response) => {
     users,
   });
 
-  response.json({ msg: "message send successfully" });
+  response.json({
+    id: data._id,
+    message: data.message,
+    sender: data.sender,
+    users: data.users,
+    updatedAt: data.updatedAt,
+  });
 });
 
 module.exports = router;

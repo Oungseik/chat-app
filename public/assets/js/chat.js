@@ -15,6 +15,14 @@ window.addEventListener("alpine:init", () => {
       window.addEventListener("keydown", (e) => {
         e.key === "Escape" && (this.isEmojiOpen = false);
       });
+
+      this.socket = io();
+      this.socket.emit("add-active-user", this.me.id);
+      this.socket.on("receive-msg", (data) => {
+        if (data.sender === this.currentChat.id) {
+          this.chatMessages.push(data);
+        }
+      });
     },
 
     selectChat: async function (username) {
@@ -34,8 +42,8 @@ window.addEventListener("alpine:init", () => {
       const response = await fetch("/messages", { method: "POST", body: formData });
       const data = await response.json();
 
-      console.log(data);
-      console.log(this.chatMessages);
+      this.chatMessages.push(data);
+      this.socket.emit("send-msg", { ...data, to: this.currentChat.id });
 
       this.message = "";
     },

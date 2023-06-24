@@ -21,20 +21,21 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
+const onlineUsers = new Map();
+
 io.on("connection", async (socket) => {
-  log("a user is connected!");
-  // io.emit("chat message", `a user with the id of ${socket.handshake.query.user_id} is connected!`);
+  global.sio = socket;
 
-  socket.on("setSocketId", (data) => {
-    io.emit("chat message", `${data.name} is connected`);
+  socket.on("add-active-user", async (userId) => {
+    onlineUsers.set(userId, socket.id);
   });
 
-  socket.on("disconnect", () => {
-    io.emit("chat message", "a user is disconnected!");
-  });
+  socket.on("send-msg", async (data) => {
+    const receiveUserSocket = onlineUsers.get(data.to);
 
-  socket.on("chat message", (msg) => {
-    io.emit("chat message", msg);
+    if (receiveUserSocket) {
+      socket.to(receiveUserSocket).emit("receive-msg", data);
+    }
   });
 });
 
