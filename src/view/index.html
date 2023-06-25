@@ -22,6 +22,10 @@
     .h-s-screen {
       height: 100svh;
     }
+
+    .chat-box {
+      height: calc(100% - 68px)
+    }
   </style>
 </head>
 
@@ -80,7 +84,7 @@
         </label>
       </section>
 
-      <main class="grow flex flex-col h-full">
+      <main class="grow flex flex-col chat-box">
         <section x-show="!currentChat?.username" x-transition.duration.300ms
           class="flex flex-col items-center justify-center">
           <div> <img src="/assets/images/robot.gif" alt="welcome robot" /></div>
@@ -93,6 +97,7 @@
 
         <section x-show="currentChat?.username" x-transition.duration.300ms
           class="flex flex-col justify-between gap-2 h-full">
+
           <ul class="bg-slate-900 rounded-lg overflow-y-auto flex flex-col gap-4 p-4 h-full" x-ref="div">
             <template x-for="(msg, i) in chatMessages" :key="msg.id">
               <li :class="{'self-end': msg.sender === me.id }">
