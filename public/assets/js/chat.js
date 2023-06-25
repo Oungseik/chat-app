@@ -8,6 +8,7 @@ window.addEventListener("alpine:init", () => {
     currentChat: {},
     chatMessages: [],
     message: "",
+    autoscroll: null,
 
     init: async function () {
       this.users = await fetch("/api/users").then((user) => user.json());
@@ -22,6 +23,13 @@ window.addEventListener("alpine:init", () => {
         if (data.sender === this.currentChat.id) {
           this.chatMessages.push(data);
         }
+      });
+
+      this.autoscroll =
+        this.$refs.div &&
+        this.$refs.div.offsetHeight + this.$refs.div.scrollTop > this.$refs.div.scrollHeight - 20;
+      this.$watch("chatMessages", () => {
+        if (this.autoscroll) this.$refs.div.scrollTo(0, this.$refs.div.scrollHeight);
       });
     },
 

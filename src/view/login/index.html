@@ -26,9 +26,9 @@
       <form class="flex flex-col gap-6" method="POST" id="form" x-ref="form">
 
         <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20"
-          @change="error = false; errorMsg = '';" />
+          @input="error = false;" />
         <input type="password" id="password" name="password" required placeholder="Password" minlength="4"
-          maxlength="30" @change="error = false; errorMsg = '';" />
+          maxlength="30" @input="error = false;" />
 
         <button
           class="rounded-lg bg-sky-600 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none">Log

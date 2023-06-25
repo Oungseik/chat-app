@@ -964,6 +964,10 @@ input:focus {
 }
 
 @media (min-width: 640px) {
+  .sm\:static {
+    position: static;
+  }
+
   .sm\:m-0 {
     margin: 0px;
   }
