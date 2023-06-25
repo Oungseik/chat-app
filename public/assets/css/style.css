@@ -1021,6 +1021,10 @@ input:focus {
     display: flex;
   }
 
+  .md\:hidden {
+    display: none;
+  }
+
   .md\:w-80 {
     width: 20rem;
   }
