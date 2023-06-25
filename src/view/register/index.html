@@ -12,23 +12,31 @@
 <body>
   <!-- form-container -->
   <section class="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50">
-    <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-6 sm:px-20 py-8 sm:py-12 w-80 sm:w-[30rem]">
+    <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-6 sm:px-20 py-8 sm:py-12 w-80 sm:w-[30rem]"
+      x-data="formData">
       <!-- brand -->
       <div class="flex items-center justify-center gap-4">
         <h1 class="text-2xl font-bold uppercase">ChatApp</h1>
       </div>
 
-      <form class="flex flex-col gap-6" method="POST" id="form" x-data="formData" x-ref="form">
+      <div class="w-full flex items-center justify-center fixed top-4 left-0" x-show="error"
+        x-transition.duration.300ms>
+        <span class="bg-red-500 px-4 py-2 rounded-lg" x-text="errorMsg"></span>
+      </div>
 
-        <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20" />
+      <form class="flex flex-col gap-6" method="POST" id="form" x-ref="form">
 
-        <input type="email" id="email" name="email" required placeholder="Email" maxlength="50" />
+        <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20"
+          @input="error = false;" />
+
+        <input type="email" id="email" name="email" required placeholder="Email" maxlength="50"
+          @input="error = false;" />
 
         <input type="password" id="password" name="password" required placeholder="Password" minlength="4"
-          maxlength="30" />
+          maxlength="30" @input="error = false;" />
 
         <input type="password" id="password-confirm" name="passwordConfirm" required placeholder="Confirm Password"
-          minlength="4" maxlength="30" />
+          minlength="4" maxlength="30" @input="error = false;" />
 
         <button
           class="rounded-lg bg-sky-600 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none">Create
@@ -43,6 +51,7 @@
     window.addEventListener("alpine:init", () => {
       Alpine.data("formData", () => ({
         error: "",
+        errorMsg: "",
         init() {
           this.$refs.form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -55,7 +64,8 @@
 
             if (response.status === 400) {
               const responseData = await response.json();
-              console.error(responseData);
+              this.error = responseData.error;
+              this.errorMsg = responseData.msg;
             }
 
             if (response.status === 302) {
