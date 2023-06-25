@@ -10,19 +10,25 @@
 </head>
 
 <body>
-  <!-- form-container -->
-  <section class="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50">
+  <section class="flex min-h-screen flex-col items-center justify-center gap-4 bg-slate-800 text-slate-50"
+    x-data="formData">
     <div class="flex flex-col gap-8 rounded-lg bg-slate-900 px-6 sm:px-20 py-8 sm:py-12 w-80 sm:w-[30rem]">
-      <!-- brand -->
+
+      <div class="w-full flex items-center justify-center fixed top-4 left-0" x-show="error"
+        x-transition.duration.300ms>
+        <span class="bg-red-500 px-4 py-2 rounded-lg" x-text="errorMsg"></span>
+      </div>
+
       <div class="flex items-center justify-center gap-4">
         <h1 class="text-2xl font-bold uppercase">ChatApp</h1>
       </div>
 
-      <form class="flex flex-col gap-6" method="POST" id="form" x-data="formData" x-ref="form">
+      <form class="flex flex-col gap-6" method="POST" id="form" x-ref="form">
 
-        <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20" />
+        <input type="text" id="username" name="username" required placeholder="Username" minlength="3" maxlength="20"
+          @change="error = false; errorMsg = '';" />
         <input type="password" id="password" name="password" required placeholder="Password" minlength="4"
-          maxlength="30" />
+          maxlength="30" @change="error = false; errorMsg = '';" />
 
         <button
           class="rounded-lg bg-sky-600 py-2 font-bold uppercase shadow shadow-sky-600 transition hover:bg-sky-700 active:shadow-none">Log
@@ -36,7 +42,8 @@
   <script>
     window.addEventListener("alpine:init", () => {
       Alpine.data("formData", () => ({
-        error: "",
+        error: false,
+        errorMsg: "",
         init() {
           this.$refs.form.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -49,7 +56,8 @@
 
             if (response.status === 400) {
               const responseData = await response.json();
-              console.log(responseData);
+              this.errorMsg = responseData.msg;
+              this.error = true
             }
 
             if (response.status === 302) {
