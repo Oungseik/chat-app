@@ -66,7 +66,7 @@
     </aside>
 
     <div class="px-4 py-2 md:px-8 grow flex flex-col h-full">
-      <section class="flex justify-between items-center m-2 sm:m-0 sm:hidden">
+      <section class="flex justify-between items-center m-2 sm:m-0 md:hidden">
         <h2 class="font-bold text-2xl flex items-center gap-4">
           <span class="block h-12 w-12"><img :src="currentChat?.avatarImage" /></span>
           <span x-text="currentChat?.username"></span>
@@ -93,7 +93,7 @@
 
         <section x-show="currentChat?.username" x-transition.duration.300ms
           class="flex flex-col justify-between gap-2 h-full">
-          <ul class="bg-slate-900 rounded-lg overflow-y-auto flex flex-col gap-4 p-4 h-full">
+          <ul class="bg-slate-900 rounded-lg overflow-y-auto flex flex-col gap-4 p-4 h-full" x-ref="div">
             <template x-for="(msg, i) in chatMessages" :key="msg.id">
               <li :class="{'self-end': msg.sender === me.id }">
                 <span x-text="msg.message" class="px-6 py-2 bg-slate-600 w-fit rounded-lg "></span>
