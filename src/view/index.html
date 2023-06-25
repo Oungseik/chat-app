@@ -18,11 +18,15 @@
       width: .1rem;
       border-radius: 1rem;
     }
+
+    .h-s-screen {
+      height: 100svh;
+    }
   </style>
 </head>
 
 <body>
-  <div class="h-screen w-screen bg-slate-800 overflow-hidden relative text-slate-100 md:flex" x-data="users">
+  <div class="h-screen h-s-screen w-screen bg-slate-800 overflow-hidden relative text-slate-100 md:flex" x-data="users">
     <input type="checkbox" id="menu" aria-hidden="true" class="peer hidden" x-ref="menu" />
 
     <!-- left hand side drawer -->
