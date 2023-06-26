@@ -28,6 +28,15 @@ io.on("connection", async (socket) => {
 
   socket.on("add-active-user", async (userId) => {
     onlineUsers.set(userId, socket.id);
+    io.emit("get-users", [...onlineUsers.keys()]);
+  });
+
+  socket.on("disconnect", async (data) => {
+    const activeUsers = [...onlineUsers.entries()].filter(([, value]) => value !== socket.id);
+    io.emit(
+      "get-users",
+      activeUsers.map(([k]) => k)
+    );
   });
 
   socket.on("send-msg", async (data) => {

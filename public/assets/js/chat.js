@@ -2,6 +2,7 @@ window.addEventListener("alpine:init", () => {
   Alpine.data("users", () => ({
     me: {},
     users: [],
+    activeUsers: [],
     chatWith: "",
     isEmojiOpen: false,
 
@@ -9,6 +10,7 @@ window.addEventListener("alpine:init", () => {
     chatMessages: [],
     message: "",
     autoscroll: null,
+    socket: null,
 
     init: async function () {
       this.users = await fetch("/api/users").then((user) => user.json());
@@ -19,6 +21,11 @@ window.addEventListener("alpine:init", () => {
 
       this.socket = io();
       this.socket.emit("add-active-user", this.me.id);
+
+      this.socket.on("get-users", (activeUsers) => {
+        this.activeUsers = activeUsers;
+      });
+
       this.socket.on("receive-msg", (data) => {
         if (data.sender === this.currentChat.id) {
           this.chatMessages.push(data);
