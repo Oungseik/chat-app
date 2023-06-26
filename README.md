@@ -7,6 +7,7 @@ A simple chatting web application create with `Express.js`, `Socket.io` and `Mon
 - Responsive UI
 - Realtime chat
 - Session based authentication
+- add active status when online and remove when offline
 
 ## Backend
 
