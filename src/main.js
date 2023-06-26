@@ -21,7 +21,7 @@ const io = new Server(server);
 
 const PORT = process.env.PORT || 3000;
 
-const onlineUsers = new Map();
+let onlineUsers = new Map();
 
 io.on("connection", async (socket) => {
   global.sio = socket;
@@ -31,11 +31,12 @@ io.on("connection", async (socket) => {
     io.emit("get-users", [...onlineUsers.keys()]);
   });
 
-  socket.on("disconnect", async (data) => {
-    const activeUsers = [...onlineUsers.entries()].filter(([, value]) => value !== socket.id);
+  socket.on("disconnect", async () => {
+    const users = [...onlineUsers.entries()].filter(([, value]) => value !== socket.id);
+    onlineUsers = new Map(users);
     io.emit(
       "get-users",
-      activeUsers.map(([k]) => k)
+      users.map(([k]) => k)
     );
   });
 
