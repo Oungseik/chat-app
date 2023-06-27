@@ -22,26 +22,26 @@ const io = new Server(server);
 const PORT = process.env.PORT || 3000;
 
 let onlineUsers = new Map();
+let activeSockets = new Map();
 
 io.on("connection", async (socket) => {
   global.sio = socket;
 
   socket.on("add-active-user", async (userId) => {
-    onlineUsers.set(userId, socket.id);
-    io.emit("get-users", [...onlineUsers.keys()]);
+    onlineUsers.set(socket.id, userId);
+    activeSockets.set(userId, socket.id);
+    io.emit("get-users", [...onlineUsers.values()]);
   });
 
   socket.on("disconnect", async () => {
-    const users = [...onlineUsers.entries()].filter(([, value]) => value !== socket.id);
-    onlineUsers = new Map(users);
-    io.emit(
-      "get-users",
-      users.map(([k]) => k)
-    );
+    const userId = onlineUsers.get(socket.id);
+    onlineUsers.delete(socket.id);
+    activeSockets.delete(userId);
+    io.emit("get-users", [...onlineUsers.values()]);
   });
 
   socket.on("send-msg", async (data) => {
-    const receiveUserSocket = onlineUsers.get(data.to);
+    const receiveUserSocket = activeSockets.get(data.to);
 
     if (receiveUserSocket) {
       socket.to(receiveUserSocket).emit("receive-msg", data);
