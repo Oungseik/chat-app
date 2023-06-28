@@ -120,16 +120,37 @@
           <ul class="bg-slate-900 rounded-lg overflow-y-auto flex flex-col gap-4 p-4 h-full" x-ref="div">
             <template x-for="(msg, i) in chatMessages" :key="msg.id">
               <li :class="{'self-end': msg.sender === me.id }">
-                <span x-text="msg.message" class="px-6 py-2 bg-slate-600 w-fit rounded-lg "></span>
+                <template x-if="msg.message">
+                  <p x-text="msg.message" class="px-6 py-2 bg-slate-600 w-fit rounded-lg ml-auto"></p>
+                </template>
+
+                <ul class="max-w-[240px] flex md:max-w-md w-fit mt-2 rounded-md bg-slate-300 gap-1 p-1"
+                  x-show="msg.images.length">
+                  <template x-for="image in msg.images" :key="image">
+                    <li class="max-w-[120px] md:max-w-[200px] rounded-md overflow-hidden"><a :href="image" target="_blank"><img
+                          :src="image" /></a></li>
+                  </template>
+                </ul>
               </li>
             </template>
           </ul>
 
-          <form class="flex gap-2 relative" @submit.prevent="send">
+          <form class="flex gap-2" id="messageForm" @submit.prevent="send" enctype="multipart/form-data">
             <input class="hidden" name="from" x-model="me.id" />
             <input class="hidden" name="to" x-model="currentChat.id" />
-            <input type="text" id="message" x-ref="message" name="message" placeholder="Aa..." x-model="message"
-              autocomplete="off">
+            <input type="file" id="files" name="files" multiple class="hidden" accept="image/*"
+              @change="(e) => { filesCount = e.target.files.length }">
+            <label for="files"
+              class="text-center bg-slate-600 hover:bg-slate-700 rounded-md grow-0 self-center p-2 shadow-sm shadow-slate-400/70 transition duration-300 active:shadow-none relative">
+              <small x-text="filesCount" x-show="filesCount" x-transition.duration-300
+                class="absolute -top-2 -left-2 shadow bg-green-200 shadow-green-200 text-slate-900 w-5 h-5 rounded-full"></small>
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                  d="M23 4v2h-3v3h-2V6h-3V4h3V1h2v3h3zm-8.5 7a1.5 1.5 0 1 0-.001-3.001A1.5 1.5 0 0 0 14.5 11zm3.5 3.234l-.513-.57a2 2 0 0 0-2.976 0l-.656.731L9 9l-3 3.333V6h7V4H6a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-7h-2v3.234z" />
+              </svg>
+            </label>
+            <input type="text" id="message" name="message" placeholder="Aa..." x-model="message" autocomplete="off">
+
             <button
               class="text-center bg-slate-600 hover:bg-slate-700 rounded-md grow-0 self-center p-4 shadow-sm shadow-slate-400/70 transition duration-300 active:shadow-none">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">

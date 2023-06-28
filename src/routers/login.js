@@ -23,7 +23,7 @@ router.post("/", upload.none(), async (request, response) => {
   const user = await User.findOne({ username });
   if (!user) {
     return response.status(400).json({
-      msg: "Incorrect username or password",
+      msg: "Username does not exist",
     });
   }
 

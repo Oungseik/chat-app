@@ -2,11 +2,9 @@ const { Router } = require("express");
 const { getView } = require("../lib/utils");
 
 const mongoose = require("mongoose");
-// const User = require("../models/User");
 const Message = require("../models/Message");
 
-const multer = require("multer");
-const upload = multer();
+const { upload } = require("../middlewares/fileStorage.js");
 
 const chatView = getView("");
 
@@ -22,21 +20,24 @@ router.get("/messages/:to", async (request, response) => {
 
   const messages = await Message.find({ users: { $all: [from, to] } })
     .sort({ updatedAt: 1 })
-    .select(["_id", "message", "sender", "users", "updatedAt"]);
+    .select(["_id", "message", "sender", "users", "updatedAt", "images"]);
 
-  const data = messages.map(({ _id, message, sender, users, updatedAt }) => ({
+  const data = messages.map(({ _id, message, sender, users, updatedAt, images }) => ({
     id: _id.toString(),
     message,
     sender: sender.toString(),
     users: users.map((user) => user.toString()),
     updatedAt,
+    images
   }));
 
   response.json(data);
 });
 
-router.post("/messages", upload.none(), async (request, response) => {
+router.post("/messages", upload.array("files"), async (request, response) => {
   const { from, to, message } = request.body;
+
+  if (!message && request.files.length < 1) return response.status(400).end();
 
   let users;
   if (to instanceof Array) {
@@ -45,10 +46,13 @@ router.post("/messages", upload.none(), async (request, response) => {
     users = [from, to];
   }
 
+  const files = request.files.map(file => `/uploads/${file.filename}`);
+
   const data = await Message.create({
     message,
     sender: from,
     users,
+    images: files,
   });
 
   response.json({
@@ -56,6 +60,7 @@ router.post("/messages", upload.none(), async (request, response) => {
     message: data.message,
     sender: data.sender,
     users: data.users,
+    images: data.images,
     updatedAt: data.updatedAt,
   });
 });

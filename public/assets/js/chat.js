@@ -12,7 +12,10 @@ window.addEventListener("alpine:init", () => {
     autoscroll: null,
     socket: null,
 
-    init: async function () {
+    fileInput: null,
+    filesCount: 0,
+
+    init: async function() {
       this.users = await fetch("/api/users").then((user) => user.json());
       this.me = await fetch("/api/users/me").then((me) => me.json());
       window.addEventListener("keydown", (e) => {
@@ -38,21 +41,26 @@ window.addEventListener("alpine:init", () => {
       this.$watch("chatMessages", () => {
         if (this.autoscroll) this.$refs.div.scrollTo(0, this.$refs.div.scrollHeight);
       });
+
+      this.fileInput = document.getElementById("files");
     },
 
-    selectChat: async function (username) {
+    selectChat: async function(username) {
       this.chatWith = username;
       this.currentChat = this.users.find((user) => user.username === username);
       this.isEmojiOpen = false;
 
       const response = await fetch(`/messages/${this.currentChat.id}`);
       this.chatMessages = await response.json();
+
+      this.fileInput.value = "";
+      this.filesCount = 0;
     },
 
-    send: async function (e) {
+    send: async function(e) {
       const formData = new FormData(e.target);
 
-      if (!formData.get("message")) return;
+      if (!formData.get("message") && !this.filesCount) return;
 
       const response = await fetch("/messages", { method: "POST", body: formData });
       const data = await response.json();
@@ -60,6 +68,8 @@ window.addEventListener("alpine:init", () => {
       this.chatMessages.push(data);
       this.socket.emit("send-msg", { ...data, to: this.currentChat.id });
 
+      this.fileInput.value = "";
+      this.filesCount = 0;
       this.message = "";
     },
   }));
